@@ -14,13 +14,29 @@ let weatherInfo = (searchedZipCode) => {
   });
 };
 
+function validateUserZipCode(userInput) {
+  if(userInput.length === 5 && $.isNumeric(userInput)) {
+    return true;
+  } else {
+    displayWinnerModal("Invalid zip code");
+    return false;
+  }
+}
+
+function displayWinnerModal(message) {
+  $("#myModal").modal('show');
+  $("#myModalLabel").html(message);
+}
+
 $(document).ready(function() {
   console.log("document ready");
   $("#search-button").on("click",()=>{
     let searchedZipCode = $("#weather-search").val();
-    console.log("searched zip code: ",searchedZipCode);
-    weatherInfo(searchedZipCode).then((returnedWeatherInfo)=>{
-      console.log(returnedWeatherInfo);
-    });
+    if(validateUserZipCode(searchedZipCode)) {
+      console.log("searched zip code: ",searchedZipCode);
+      weatherInfo(searchedZipCode).then((returnedWeatherInfo)=>{
+        console.log(returnedWeatherInfo);
+      });
+    }
   });
 });
