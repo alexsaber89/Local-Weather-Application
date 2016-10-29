@@ -68,7 +68,10 @@ $(document).ready(function() {
   function displayRequestedForecast(url) {
     weatherForecast(url).then((returnedWeatherInfo)=>{
       console.log(returnedWeatherInfo);
-      $("#myModalLabel").append(returnedWeatherInfo);
+      let forecastArray = returnedWeatherInfo.list;
+      console.log("forecastArray: ",forecastArray);
+      // returnedWeatherInfo.list.forEach(function())
+      // $("#myModalLabel").append();
     });
   }
 
