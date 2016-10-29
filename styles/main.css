@@ -12,3 +12,10 @@
 
 #search-button {
   margin-top: 1%; }
+
+#btn_container {
+  display: flex;
+  margin-top: 2%; }
+
+.centered {
+  margin: 0 auto; }

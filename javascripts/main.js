@@ -35,6 +35,10 @@ $(document).ready(function() {
         $("#myModalLabel").append(`<br />Conditions: ${returnedWeatherInfo.weather[0].description}`);
         $("#myModalLabel").append(`<br />Pressure: ${returnedWeatherInfo.main.pressure} mbar`);
         $("#myModalLabel").append(`<br />Wind Speed: ${returnedWeatherInfo.wind.speed} mph`);
+        $("#myModalLabel").append(`<br />Wind Speed: ${returnedWeatherInfo.wind.speed} mph`);
+        $("#myModalLabel").append(`<br /><div id="btn_container"><button type="button" id="3_day_btn" class="btn btn-secondary" data-dismiss="modal">3 day forecast</button><button type="button" id="7_day_btn" class="btn btn-secondary" data-dismiss="modal">7 day forecast</button></div>`);
+        $("#3_day_btn").addClass("centered");
+        $("#7_day_btn").addClass("centered");
       });
     }
   }
@@ -43,12 +47,12 @@ $(document).ready(function() {
     if(userInput.length === 5 && $.isNumeric(userInput)) {
       return true;
     } else {
-      displayWinnerModal("Invalid zip code");
+      displayModal("Invalid zip code");
       return false;
     }
   }
 
-  function displayWinnerModal(message) {
+  function displayModal(message) {
     $("#myModal").modal('show');
     $("#myModalLabel").html(message);
   }
