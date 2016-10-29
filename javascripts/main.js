@@ -25,12 +25,16 @@ $(document).ready(function() {
 
   function submitAJAX() {
     let searchedZipCode = $("#weather-search").val();
+    $("#weather-search").val("");
     if(validateUserZipCode(searchedZipCode)) {
       weatherInfo(searchedZipCode).then((returnedWeatherInfo)=>{
         console.log(returnedWeatherInfo);
         $("#myModal").modal('show');
-        $("#myModalLabel").html("Temperature: " + Math.round(returnedWeatherInfo.main.temp));
-        $("#myModalLabel").append("<br />Temperature: " + Math.round(returnedWeatherInfo.main.temp));
+        $("#myModalLabel").html("Searched Zip Code: " + searchedZipCode);
+        $("#myModalLabel").append("<br />Temperature: " + Math.round(returnedWeatherInfo.main.temp) + " degrees fahrenheit");
+        $("#myModalLabel").append(`<br />Conditions: ${returnedWeatherInfo.weather[0].description}`);
+        $("#myModalLabel").append(`<br />Pressure: ${returnedWeatherInfo.main.pressure} mbar`);
+        $("#myModalLabel").append(`<br />Wind Speed: ${returnedWeatherInfo.wind.speed} mph`);
       });
     }
   }
