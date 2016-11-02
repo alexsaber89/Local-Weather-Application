@@ -3,6 +3,7 @@
 $(document).ready(function() {
 
   $(".search-bar").show();
+  $("#weather-search").focus();
   $("#output").hide();
 
   let weatherInfo = (searchedZipCode) => {
@@ -40,7 +41,6 @@ $(document).ready(function() {
     $("#weather-search").val("");
     if(validateUserZipCode(searchedZipCode)) {
       weatherInfo(searchedZipCode).then((returnedWeatherInfo)=>{
-        console.log(returnedWeatherInfo);
         let cityName = returnedWeatherInfo.name;
         $("#myModal").modal('show');
         $("#myModalLabel").html("Searched Zip Code: " + searchedZipCode);
@@ -49,16 +49,16 @@ $(document).ready(function() {
         $("#myModalLabel").append(`<br />Air Pressure: ${returnedWeatherInfo.main.pressure} mbar`);
         $("#myModalLabel").append(`<br />Wind Speed: ${returnedWeatherInfo.wind.speed} mph`);
         $("#myModalLabel").append(`<br /><div id="btn_container"><button type="button" id="3_day_btn" class="btn btn-secondary">3 day forecast</button><button type="button" id="7_day_btn" class="btn btn-secondary">7 day forecast</button></div>`);
+
         $("#3_day_btn").addClass("centered");
         $("#3_day_btn").on("click",function() {
-          multiDayAjaxUrl = `http://api.openweathermap.org/data/2.5/forecast/daily?q=${cityName}&cnt=3&APPID=349ecc5fc8a79b57d436f8da19c6af12`;
-          console.log("multiDayAjaxUrl: ",multiDayAjaxUrl);
+          multiDayAjaxUrl = `http://api.openweathermap.org/data/2.5/forecast/daily?q=${cityName}&cnt=3&units=imperial&APPID=349ecc5fc8a79b57d436f8da19c6af12`;
           displayRequestedForecast(multiDayAjaxUrl);
         });
+
         $("#7_day_btn").addClass("centered");
         $("#7_day_btn").on("click",function() {
-          multiDayAjaxUrl = `http://api.openweathermap.org/data/2.5/forecast/daily?q=${cityName}&cnt=7&APPID=349ecc5fc8a79b57d436f8da19c6af12`;
-          console.log("multiDayAjaxUrl: ",multiDayAjaxUrl);
+          multiDayAjaxUrl = `http://api.openweathermap.org/data/2.5/forecast/daily?q=${cityName}&cnt=7&units=imperial&APPID=349ecc5fc8a79b57d436f8da19c6af12`;
           displayRequestedForecast(multiDayAjaxUrl);
         });
       });
@@ -67,11 +67,15 @@ $(document).ready(function() {
 
   function displayRequestedForecast(url) {
     weatherForecast(url).then((returnedWeatherInfo)=>{
-      console.log(returnedWeatherInfo);
       let forecastArray = returnedWeatherInfo.list;
-      console.log("forecastArray: ",forecastArray);
-      // returnedWeatherInfo.list.forEach(function())
-      // $("#myModalLabel").append();
+      let counter = 1;
+      console.log("forecast array: ",forecastArray);
+      forecastArray.forEach(function(element) {
+        $("#myModalLabel").append("<br />Temperature: " + Math.round(element.temp.day) + " degrees fahrenheit");
+        $("#myModalLabel").append(`<br />Conditions: ${element.weather[0].description}`);
+        $("#myModalLabel").append(`<br />Air Pressure: ${element.pressure} mbar`);
+        $("#myModalLabel").append(`<br />Wind Speed: ${element.speed} mph`);
+      });
     });
   }
 
